@@ -38,7 +38,6 @@ public  class LocalJsonRepository<T> implements JsonRepository<T> {
     }
     private void readAll() throws Exception {
         File file = Paths.get(destination).toFile();
-        System.out.println("LocalJsonRepository initialised with file: " + file.getAbsolutePath());
         if (!file.exists()){
             file.createNewFile();
         }else {
