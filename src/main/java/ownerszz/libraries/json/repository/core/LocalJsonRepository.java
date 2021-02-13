@@ -42,7 +42,7 @@ public  class LocalJsonRepository<T> implements JsonRepository<T> {
             file.createNewFile();
         }else {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            objects = objectMapper.readValue(br,new TypeReference<List<T>>(){});
+            objects = objectMapper.readValue(br,objectMapper.getTypeFactory().constructCollectionType(List.class,clazz));
         }
 
     }

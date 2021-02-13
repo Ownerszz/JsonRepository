@@ -5,7 +5,10 @@ import ownerszz.libraries.json.repository.core.utils.QueryExtractor;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.Future;
 import java.util.function.Predicate;
 
 public class LocalJsonRepositoryInvocHandler<T> implements InvocationHandler {
@@ -32,13 +35,27 @@ public class LocalJsonRepositoryInvocHandler<T> implements InvocationHandler {
         }else {
             String query = QueryExtractor.extractQueryFromMethod(method);
             Predicate<T> predicate = ExpressionGenerator.expressionAsPredicate(type, query, args);
-            if (Collection.class.isAssignableFrom(method.getReturnType())) {
-                toReturn = repository.findAllBy(predicate);
-            } else {
-                toReturn = repository.findBy(predicate);
+            Class returnType = method.getReturnType();
+            if(Future.class.isAssignableFrom(returnType)){
+                Type futureType = method.getGenericReturnType();
+                Type[] typeParams = ((ParameterizedType) futureType).getActualTypeArguments();
+                Type typeArgument = ((ParameterizedType) typeParams[0]).getRawType();
+                Class classOfTypeArgument = (Class) typeArgument;
+                if (Collection.class.isAssignableFrom(classOfTypeArgument)){
+                    toReturn = repository.findAllByAsync(predicate);
+                }else {
+                    toReturn = repository.findByAsync(predicate);
+                }
+            }else {
+                if (Collection.class.isAssignableFrom(method.getReturnType())) {
+                    toReturn = repository.findAllBy(predicate);
+                } else {
+                    toReturn = repository.findBy(predicate);
+                }
             }
         }
         return toReturn;
     }
+
 
 }

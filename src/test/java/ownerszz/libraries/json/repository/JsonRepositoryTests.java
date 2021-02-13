@@ -8,11 +8,9 @@ import ownerszz.libraries.json.repository.core.JsonRepositoryFactory;
 import ownerszz.libraries.json.repository.models.TestLocalJsonRepository;
 import ownerszz.libraries.json.repository.models.TestObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class JsonRepositoryTests {
     private TestLocalJsonRepository localJsonRepository;
@@ -75,6 +73,15 @@ public class JsonRepositoryTests {
         }
         List<TestObject> testObject = localJsonRepository.findAllByNameOrAge("test1",0);
         Assert.assertTrue(testObject.stream().allMatch(e-> e.getAge() == 0 || e.getName().equals("test1")));
+    }
+
+    @Test
+    public void testReturnFuture() throws Exception{
+        for (TestObject testObject:testObjects) {
+            localJsonRepository.save(testObject);
+        }
+        Future<Optional<TestObject>> future = localJsonRepository.findByNameAsync("test0");
+        TestObject testObject = future.get().orElseThrow();
     }
 
 }
