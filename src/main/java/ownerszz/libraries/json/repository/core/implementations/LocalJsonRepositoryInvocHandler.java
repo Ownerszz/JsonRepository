@@ -1,4 +1,4 @@
-package ownerszz.libraries.json.repository.core;
+package ownerszz.libraries.json.repository.core.implementations;
 
 import ownerszz.libraries.json.repository.core.utils.ExpressionGenerator;
 import ownerszz.libraries.json.repository.core.utils.QueryExtractor;
@@ -51,6 +51,9 @@ public class LocalJsonRepositoryInvocHandler<T> implements InvocationHandler {
                     toReturn = repository.findAllBy(predicate);
                 } else {
                     toReturn = repository.findBy(predicate);
+                    if (Boolean.class.isAssignableFrom(returnType)){
+                     toReturn = ((Optional<?>) toReturn).isPresent();
+                    }
                 }
             }
         }

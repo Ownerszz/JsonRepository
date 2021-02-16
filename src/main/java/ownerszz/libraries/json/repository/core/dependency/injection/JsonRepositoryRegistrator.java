@@ -10,11 +10,11 @@ import ownerszz.libraries.json.repository.core.JsonRepositoryFactory;
 public class JsonRepositoryRegistrator {
     @ResolveDependencies
     public JsonRepositoryRegistrator(DependencyManager dependencyManager) throws Exception {
-        dependencyManager.registerPoxyOnAnnotation(JsonRepository.class, impl->{
+        dependencyManager.registerPoxyOnAnnotation(LocalJsonRepository.class, impl->{
             Class actual =  impl.getClass().getInterfaces()[0];
-            JsonRepository ann = AnnotationScanner.getAnnotation(actual,JsonRepository.class);
+            LocalJsonRepository ann = AnnotationScanner.getAnnotation(actual, LocalJsonRepository.class);
             try {
-                return JsonRepositoryFactory.createProxyFor(actual,ann.target());
+                return JsonRepositoryFactory.createLocalJsonRepository(actual,ann.target());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

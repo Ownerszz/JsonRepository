@@ -1,7 +1,6 @@
 package ownerszz.libraries.json.repository.models;
 
 import ownerszz.libraries.json.repository.core.JsonRepository;
-import ownerszz.libraries.json.repository.core.LocalJsonRepository;
 
 import java.util.List;
 import java.util.Optional;

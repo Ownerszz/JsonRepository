@@ -9,10 +9,9 @@ import ownerszz.libraries.json.repository.models.TestLocalJsonRepository;
 import ownerszz.libraries.json.repository.models.TestObject;
 
 import java.util.*;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class JsonRepositoryTests {
+public class LocalJsonRepositoryTests {
     private TestLocalJsonRepository localJsonRepository;
     private List<TestObject> testObjects;
 
@@ -22,7 +21,7 @@ public class JsonRepositoryTests {
         for (int i = 0; i < 10; i++) {
             testObjects.add(new TestObject("test" + i, i %2));
         }
-        localJsonRepository = JsonRepositoryFactory.createProxyFor(TestLocalJsonRepository.class,"src/test/java/ownerszz/libraries/json/repository/test/files/testobjects.json");
+        localJsonRepository = JsonRepositoryFactory.createLocalJsonRepository(TestLocalJsonRepository.class,"src/test/java/ownerszz/libraries/json/repository/test/files/testobjects.json");
     }
     @After
     public void tearDown() throws Exception{

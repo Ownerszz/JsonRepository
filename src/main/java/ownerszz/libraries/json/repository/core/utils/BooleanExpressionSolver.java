@@ -5,14 +5,10 @@ import java.util.List;
 
 public class BooleanExpressionSolver {
     public static boolean evaluate(String expression, int index){
-        //0
-        //1
         char op = expression.charAt(index++);
         List<Boolean> bools = new ArrayList();
 
         while (index < expression.length()) {
-            //1
-            //2
             char c = expression.charAt(index++);
 
             if (c == 't' || c == 'f')
